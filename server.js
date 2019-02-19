@@ -18,7 +18,7 @@ var con = mysql.createConnection({
   host: "localhost",
   user: "",
   password: "",
-  database: ""
+  database: "Gungeon"
 });
 
 const imagepath = __dirname + '/assets/';
