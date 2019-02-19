@@ -1,26 +1,98 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+// import App from './App';
+import Api from './api';
 //import * as serviceWorker from './serviceWorker';
-
 import './css/index.css';
 import titleimg from './assets/Enter-the-gungeon-logo.png';
 // images
+var api = new Api();
 function Img(props){
 	return <img className="Img" src={props.src} alt="img" 
 	onMouseOver={props.onMouseOver}
     onMouseLeave={props.onMouseLeave}
     />;
 }
+class Loginbar extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      showLogin:false
+    }
+    this.handleLogin = this.handleLogin.bind(this);
+    this.showLogin = this.showLogin.bind(this);
+    this.closeLogin = this.closeLogin.bind(this);
+  }
+
+  showLogin(event){
+    event.preventDefault();
+    this.setState({showLogin:true}, () => {
+      document.addEventListener('click', this.closeLogin);
+    });
+  }
+
+  closeLogin(event) {
+    if (!this.dropdown.contains(event.target)){
+      this.setState({showLogin:false}, () => {
+        document.removeEventListener('click', this.closeLogin);
+      });
+    }
+  }
+
+  handleLogin(event){
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const username = data.get('username');
+    const password = data.get('password');
+    // sanitize input then upload
+    api.login({username: username, password: password}, function(err, result){
+      if (err) console.log(err);
+      console.log(result);
+    });
+  }
+  render(){
+    return (
+      <div>
+      <div className="Loginbar">
+        <p id="login">Admin Login</p>
+        <br/>
+        <button id="loginButton" onClick={this.showLogin}>Login</button>
+      </div>
+      {
+        this.state.showLogin ? 
+        (
+          <div className="login"
+          ref={(element) => {
+            this.dropdown = element;
+          }}
+          >
+            <form onSubmit={this.handleLogin} className="Loginmenu" method="post">
+              <div>
+                <input type="text" name="username" placeholder="username" required/>
+                <input type="text" name="password" placeholder="password" required/>
+              </div>
+              <div></div>
+              <button>Login</button>
+            </form>
+          </div>
+        ) 
+        : 
+        (
+          null
+        )    
+      }
+      </div>
+    );
+  }
+}
+
 
 // info display component
 class Infodisplay extends React.Component {
     render() {
         return (
-             <div id="infoDisplay" className="infoDisplay">
-               <p>
-               </p>
-             </div>
+            <div id="infoDisplay" className="Infodisplay">
+            </div>
         );
      }
 }
@@ -77,7 +149,7 @@ class Index extends React.Component {
     }
     // retrieve images from server
     retriveImage = async () => {
-    const response = await fetch('/api/images', {
+    const response = await fetch('/app/images', {
       method: 'GET'
     });
     const body = await response.json();
@@ -101,10 +173,11 @@ class Index extends React.Component {
     // when image is hovered over, display elmt
     render(){
         const img = [];
-        console.log(this.state.images);
         if (this.state.images !== []){
           this.state.images.forEach((image) => {
+            //console.log(image);
             img.push(<Imgdisplay
+                key={image.imgData.itemid}
                 img={image.image}
                 id={image.imgData.Name}
                 meta={image.meta}
@@ -121,15 +194,16 @@ class Index extends React.Component {
         // });
     	return (
     		<div className='MainPage'>
-              <div className="titleDisplay">
-                <img className="titleimg" src={titleimg} />
-              </div>
-    		  <div className="display">
-              <Infodisplay className="infoDisplay"/>
-              <div className="imgDisplay">
-                {img}
-              </div>
-    		  </div>
+            <Loginbar />
+            <div className="Titledisplay">
+                <img className="titleimg" src={titleimg} alt="Enter the Gungeon Logo"/>
+            </div>
+    		    <div className="display">
+                <Infodisplay />
+                <div className="Imgdisplay">
+                    {img}
+                </div>
+    		    </div>
     		</div>
     	);
     }

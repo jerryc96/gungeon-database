@@ -1,7 +1,12 @@
-var api = (function(){
-    "use strict"
-    var module = {};
-    function sendFiles(method, url, data, callback){
+import React, { Component } from 'react';
+
+class Api extends React.Component {
+    constructor(){
+        super();
+        this.login = this.login.bind(this);
+        this.send = this.send.bind(this);
+    }
+    sendFiles(method, url, data, callback){
         var formdata = new FormData();
         Object.keys(data).forEach(function(key){
             var value = data[key];
@@ -14,8 +19,7 @@ var api = (function(){
         };
         xhr.open(method, url, true);
     }
-    // send HTTP requests to backend
-    function send(method, url, data, callback){
+    send(method, url, data, callback){
         var xhr = new XMLHttpRequest();
         xhr.onload = function() {
             if (xhr.status !== 200) callback("[" + xhr.status + "]" + xhr.responseText, null);
@@ -28,9 +32,9 @@ var api = (function(){
             xhr.send(JSON.stringify(data));
         }
     }
-    module.getImage = function(imageId, callback){
-    	send("GET", "app/imagename/" + imageId + "/", null, callback);
+    login(loginData, callback){
+        this.send("POST", "/app/login", loginData, callback);
     }
+}
 
-    return module;
-})();
+export default Api;

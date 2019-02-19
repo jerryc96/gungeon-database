@@ -1,4 +1,5 @@
 body {
+  background-image: url('../assets/bulletKin_wallpaper.jpg');
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -13,8 +14,12 @@ code {
     monospace;
 }
 
+input:invalid {
+  border: 2px dashed red;
+}
+
 .Img {
-	width: 10%;
+	width: 20%;
 	height: auto;
 }
 
@@ -27,23 +32,24 @@ code {
 }
 
 .display {
+	background-color: white;
 	border-style: solid;
 	border-top-left-radius: 25px;
 	border-top-right-radius: 25px;
 	border-width: 2px;
-	margin: 20px;
+	margin: 10px;
 	padding: 20px;
 	min-height: 50%;
 	display: grid;
 	grid-template-columns: 30% auto;
 }
 
-.infoDisplay {
-	grid-column: 1/2;
+.Infodisplay {
 }
 
-.imageDisplay {
-	grid-column: 2/2;
+.Imagedisplay {
+	display: grid;
+	grid-template-columns: auto;
 }
 
 .MainPage {
@@ -52,7 +58,7 @@ code {
 
 .img-row {
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);
+	grid-template-columns: 20% 20% 20% 20% 20%;
 }
 
 .img-textbox {
@@ -60,4 +66,20 @@ code {
 	border-width: 2px;
 	margin: 10px;
 	display: none;
+}
+
+.Loginbar {
+	display:grid;
+	background-color: white;
+	padding:5px;
+	grid-template-columns: 20% auto 20%;
+}
+.Loginmenu {
+	padding:5px;
+	display:grid;
+	background-color: gray;
+	grid-template-columns: 20% 20% auto 20% auto;
+}
+#login {
+	margin:10px;
 }
