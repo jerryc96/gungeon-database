@@ -7,9 +7,12 @@ Users can hover over the pictures displayed to view a description of the gun. Us
 
 Upcoming features:
 
-admin registration and improved valiadation/sanitation for login credentials.
-allowing logged-in admins to contribute by posting new guns and descriptions from their directory
-more guns! more items!
+> admin registration and improved valiadation/sanitation for login credentials.
+
+> allowing logged-in admins to contribute by posting new guns and descriptions from their directory
+
+> more guns! more items!
+
 
 How to run:
 
