@@ -48,8 +48,7 @@ input:invalid {
 }
 
 .Imgdisplay {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+	display: inline-block;
 }
 
 .MainPage {
@@ -61,6 +60,12 @@ input:invalid {
 	border-width: 2px;
 	margin: 10px;
 	display: none;
+}
+
+.img-container {
+	display: inline-block;
+	margin: 3px;
+	vertical-align: middle;
 }
 
 .Loginbar {
