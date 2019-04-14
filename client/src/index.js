@@ -4,14 +4,17 @@ import ReactDOM from 'react-dom';
 import Api from './api';
 //import * as serviceWorker from './serviceWorker';
 import './css/index.css';
+import './css/guns.css';
 import titleimg from './assets/Enter-the-gungeon-logo.png';
 // images
 var api = new Api();
 function Img(props){
-	return <img className="Img" src={props.src} alt="img" 
-	onMouseOver={props.onMouseOver}
-    onMouseLeave={props.onMouseLeave}
-    />;
+	return (
+    <div className={props.imageid} alt="img" 
+	  onMouseOver={props.onMouseOver}
+    onMouseLeave={props.onMouseLeave}>
+    </div>
+  );
 }
 class Loginbar extends React.Component {
   constructor(){
@@ -92,6 +95,9 @@ class Infodisplay extends React.Component {
     render() {
         return (
             <div id="infoDisplay" className="Infodisplay">
+              <p id="name"></p>
+              <p id="quote"></p>
+              <p id="description"></p>
             </div>
         );
      }
@@ -101,34 +107,31 @@ class Infodisplay extends React.Component {
 
 class Imgdisplay extends React.Component {
     showText(){
-        document.getElementById("infoDisplay").innerHTML = this.props.info;
+        const image = this.props.image;
+        document.getElementById("name").innerHTML = image.Name;
+        document.getElementById("quote").innerHTML = image.Quote;
+        //document.getElementById("description").innerHTML = this.props.image.Description;
     }
     hideText(){
-        document.getElementById("infoDisplay").innerHTML = "";
+        document.getElementById("name").innerHTML = "";
+        document.getElementById("quote").innerHTML = "";
     }
-	renderImg(src, meta, id) {
-    src = "data:" + meta.mime +";" + meta.encoding +"," + src;
+	renderImg(id) {
 		return (
 			<Img
         className = "item-img"
-			  src = {src}
+        imageid = {"gun" + id}
 			  onMouseOver={() => this.showText()}
         onMouseLeave={() => this.hideText()}
 			/>
 		);
 	}
 	render(){
-        const img = this.props.img;
-        const id = this.props.id;
-        const meta = this.props.meta;
+    const image = this.props.image;
+    const id = image.itemid.toString();
 		return (
 			<div>
-				<div className="img-row">
-				{this.renderImg(img, meta, id)}
-                <p className="img-textbox" id={id}>
-                    {this.props.info}
-                </p>
-				</div>
+				{this.renderImg(id)}
 			</div>
 		);
 	}
@@ -175,23 +178,12 @@ class Index extends React.Component {
         const img = [];
         if (this.state.images !== []){
           this.state.images.forEach((image) => {
-            //console.log(image);
             img.push(<Imgdisplay
-                key={image.imgData.itemid}
-                img={image.image}
-                id={image.imgData.Name}
-                meta={image.meta}
-                info={image.imgData.Description} 
+                key={image.itemid}
+                image={image}
             />);
           });
         }
-        // this.props.images.forEach((image) => {
-        //     img.push(<Imgdisplay 
-        //         img={image.img}
-        //         id={image.key}
-        //         info={image.info}
-        //         />);
-        // });
     	return (
     		<div className='MainPage'>
             <Loginbar />

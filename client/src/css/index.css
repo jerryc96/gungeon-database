@@ -19,7 +19,7 @@ input:invalid {
 }
 
 .Img {
-	width: 20%;
+	width: 50%;
 	height: auto;
 }
 
@@ -47,18 +47,13 @@ input:invalid {
 .Infodisplay {
 }
 
-.Imagedisplay {
+.Imgdisplay {
 	display: grid;
-	grid-template-columns: auto;
+	grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }
 
 .MainPage {
 	min-height: 100%;
-}
-
-.img-row {
-	display: grid;
-	grid-template-columns: 20% 20% 20% 20% 20%;
 }
 
 .img-textbox {
@@ -82,4 +77,14 @@ input:invalid {
 }
 #login {
 	margin:10px;
+}
+
+p #name {
+	font-size: 16px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+p #quote {
+	font-style: italic;
 }

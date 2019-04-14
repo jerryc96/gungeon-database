@@ -1,0 +1,39 @@
+@mixin image($width, $height, $xpos, $ypos){ 
+  height: $height;
+  width: $width;
+  background-position: $xpos $ypos;
+  background-repeat: no-repeat;
+};
+
+
+$guns: (
+  gun1: (51px, 29px, -5px, -5px),
+  gun2: (42px, 27px, -546px, -330px),
+  gun3: (36px, 30px, -148px, -637px),
+  gun4: (39px, 30px, -5px, -702px),
+  gun5: (21px, 15px, -419px, -152px),
+  gun6: (36px, 21px, -373px, -152px),
+  gun7: (87px, 30px, -263px, -787px),
+  gun8: (45px, 33px, -948px, -416px),
+  gun9: (21px, 18px, -66px, -5px),
+  gun10: (69px, 42px, -96px, -51px),
+  gun11: (39px, 30px, -93px, -140px),
+  gun12: (51px, 33px, -304px, -207px),
+  gun13: (51px, 39px, -96px, -293px),
+  gun14: (57px, 24px, -157px, -330px)
+);
+
+%gunurl {
+  background-image: url(../assets/guns.png);
+}
+
+@each $gun, $guninfo in $guns {
+ $height: nth($guninfo, 1);
+ $width: nth($guninfo, 2);
+ $xpos: nth($guninfo, 3);
+ $ypos: nth($guninfo, 4);
+ .#{$gun} {
+   @extend %gunurl;
+   @include image($height, $width, $xpos, $ypos);
+ }
+}

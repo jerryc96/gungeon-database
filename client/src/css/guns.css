@@ -1,0 +1,86 @@
+.gun1, .gun2, .gun3, .gun4, .gun5, .gun6, .gun7, .gun8, .gun9, .gun10, .gun11, .gun12, .gun13, .gun14 {
+  background-image: url(../assets/guns.png); }
+
+.gun1 {
+  height: 29px;
+  width: 51px;
+  background-position: -5px -5px;
+  background-repeat: no-repeat; }
+
+.gun2 {
+  height: 27px;
+  width: 42px;
+  background-position: -546px -330px;
+  background-repeat: no-repeat; }
+
+.gun3 {
+  height: 30px;
+  width: 36px;
+  background-position: -148px -637px;
+  background-repeat: no-repeat; }
+
+.gun4 {
+  height: 30px;
+  width: 39px;
+  background-position: -5px -702px;
+  background-repeat: no-repeat; }
+
+.gun5 {
+  height: 15px;
+  width: 21px;
+  background-position: -419px -152px;
+  background-repeat: no-repeat; }
+
+.gun6 {
+  height: 21px;
+  width: 36px;
+  background-position: -373px -152px;
+  background-repeat: no-repeat; }
+
+.gun7 {
+  height: 30px;
+  width: 87px;
+  background-position: -263px -787px;
+  background-repeat: no-repeat; }
+
+.gun8 {
+  height: 33px;
+  width: 45px;
+  background-position: -948px -416px;
+  background-repeat: no-repeat; }
+
+.gun9 {
+  height: 18px;
+  width: 21px;
+  background-position: -66px -5px;
+  background-repeat: no-repeat; }
+
+.gun10 {
+  height: 42px;
+  width: 69px;
+  background-position: -96px -51px;
+  background-repeat: no-repeat; }
+
+.gun11 {
+  height: 30px;
+  width: 39px;
+  background-position: -93px -140px;
+  background-repeat: no-repeat; }
+
+.gun12 {
+  height: 33px;
+  width: 51px;
+  background-position: -304px -207px;
+  background-repeat: no-repeat; }
+
+.gun13 {
+  height: 39px;
+  width: 51px;
+  background-position: -96px -293px;
+  background-repeat: no-repeat; }
+
+.gun14 {
+  height: 24px;
+  width: 57px;
+  background-position: -157px -330px;
+  background-repeat: no-repeat; }
