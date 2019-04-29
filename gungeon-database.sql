@@ -12,7 +12,7 @@ create table Admin (
     AdminID int,
     Username varchar(255),
     PwHash varchar(255),
-	salt varchar(16),
+	salt varchar(255),
     Primary Key (AdminID)
 );
 

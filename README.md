@@ -19,5 +19,5 @@ How to run:
 1) clone the repository, run `yarn` in terminal in the root directory
 2) `cd client` and run `npm install` to install the necessary node modules for clientside
 3) in the client directory, run `npm run build-css`
-3) run gungeon-database.sql in your root directory locally, update server.js with the username and password of your database session
+3) run gungeon-database.sql in your root directory locally, update utils/database.js with the username and password of your database session
 4) Run `yarn dev` in the root directory

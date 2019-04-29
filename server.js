@@ -12,18 +12,11 @@ var mysql = require('mysql');
 var multer  = require('multer');
 const crypto = require('crypto');
 const cookie = require('cookie');
-var upload = multer({ dest: path.join(__dirname, 'assets')});
+const asyncMiddleware = require('./utils/asyncMiddleware');
+const pool = require('./utils/database')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(session({ secret: 'secret', resave: true, saveUninitialized: true }));
-
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "",
-  password: "",
-  database: "Gungeon"
-});
 
 const imagepath = __dirname + '/assets/';
 
@@ -54,66 +47,50 @@ app.use(function (req, res, next){
     next();
 });
 
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
-});
-
-app.post('/api/world', (req, res) => {
-  console.log(req.body);
-  res.send(
-    `I received your POST request. This is what you sent me: ${req.body.post}`,
-  );
-});
-
-// multer, image file paths to data, pass it to client
-app.get('/app/images', (req, res, next) => {
-	con.connect(function(err) {
-       if (err) return res.status(500).end('Cannot connect to database');
-       con.query("SELECT * FROM guns", function (err, result, fields) {
-         if (err) throw err;
-         var imageList = [];
-         result.forEach((imgData) => {
-          imageList.push(imgData);
-         });
-         con.end();
-         res.json({imageList: imageList});
-
+// get info about the images, push it to client
+app.get('/app/images', asyncMiddleware(async (req, res, next) => {
+  try {
+    const result = await pool.query('SELECT * FROM guns');
+    let imageList = [];
+    result.forEach((imgData) => {
+      imageList.push(imgData);
     });
-  });
-});
+    res.json({imageList: imageList});
+  }
+  catch (err){
+    res.status(500).end(err);
+  }
+}));
+
 
 app.post('/app/login', sanitizeBody('username').escape(), sanitizeBody('password').escape(),
- (req, res, next) => {
-  console.log(req.body);
+ asyncMiddleware(async (req, res, next) => {
   // sanitize username and password
-  var username = req.body.username;
-  var password = req.body.password;
-  con.connect(function(err){
-    con.query("SELECT max(AdminID) as max from Admin", function(err, result, fields){
-      if (err) {
-        con.end();
-        return res.status(500).end("Cannot issue: SELECT max(AdminID) from Admin" + err);
-      }
-      else {
-        var maxval = result[0].max + 1;
-        var salt = generateSalt();
-        var query = "INSERT INTO Admin (AdminID, Username, Pw, salt) VALUES ?"
-        var queryVal = [[maxval, username, password, salt]];
-        console.log(queryVal);
-        con.query(query, [queryVal],
-         function(err, result, fields){
-          // if insert is successful, create a cookie and session for user.
-          if (err) {
-            return res.status(500).end("Cannot issue: INSERT INTO Admin values" + err);
-          };
-          console.log("Number of records inserted: " + result.affectedRows);
-          con.end();
-          res.json("successful login");
-         });
-      }
-    });
-  });
-});
+  try {
+    const username = req.body.username;
+    const password = req.body.password;
+    const availID = await pool.query('SELECT max(AdminID) as max from Admin');
+    let maxVal = availID[0].max;
+    if (maxVal === null){
+      maxVal = 0;
+    }
+    else {
+      maxVal = maxVal + 1;
+    }
+    const salt = generateSalt();
+    const hash = generateHash(password, salt);
+    const queryReq = 'INSERT INTO Admin (AdminID, Username, PwHash, salt) VALUES ?';
+    const queryVal = [[maxVal.toString(), username, hash, salt]];
+    const result = await pool.query(queryReq, [queryVal]);
+    console.log(result);
+    //console.log('Number of records inserted: ' + result.affectedRows);
+    res.json('successful login');
+  }
+  catch (err){
+    console.log(err);
+    res.status(500).end(err);
+  }
+}));
 
 var https = require('https');
 
